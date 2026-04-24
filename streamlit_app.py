@@ -1014,6 +1014,39 @@ def render_readable_table(df: pd.DataFrame, height=520):
     st.dataframe(styled, use_container_width=True, height=height)
 
 
+
+
+def render_ma_chart(df: pd.DataFrame, title: str = "최근 일봉 차트"):
+    """
+    종가 + 5일선 + 20일선 + 60일선을 함께 표시합니다.
+    """
+    if df is None or df.empty:
+        st.info("차트 데이터가 없습니다.")
+        return
+
+    chart_df = df.copy()
+    chart_df = chart_df.sort_values("date")
+
+    chart_df["5일선"] = chart_df["close"].rolling(window=5).mean()
+    chart_df["20일선"] = chart_df["close"].rolling(window=20).mean()
+    chart_df["60일선"] = chart_df["close"].rolling(window=60).mean()
+
+    chart_view = chart_df.set_index("date")[["close", "5일선", "20일선", "60일선"]]
+    chart_view = chart_view.rename(columns={"close": "종가"})
+
+    st.markdown(f"### {title}")
+    st.line_chart(chart_view, use_container_width=True, height=360)
+
+    latest = chart_df.dropna(subset=["close"]).tail(1)
+    if not latest.empty:
+        row = latest.iloc[0]
+        c1, c2, c3, c4 = st.columns(4)
+        c1.metric("종가", fmt_num(row.get("close")))
+        c2.metric("5일선", fmt_num(row.get("5일선")))
+        c3.metric("20일선", fmt_num(row.get("20일선")))
+        c4.metric("60일선", fmt_num(row.get("60일선")))
+
+
 # =================================================
 # 11. 화면 시작
 # =================================================
@@ -1107,7 +1140,7 @@ with tab_auto:
 
         ddf = picked.get("daily_df")
         if isinstance(ddf, pd.DataFrame) and not ddf.empty:
-            st.line_chart(ddf.set_index("date")[["close"]])
+            render_ma_chart(ddf, "최근 일봉 차트 / 5·20·60일선")
 
         col_news, col_disc = st.columns(2)
         with col_news:
@@ -1179,8 +1212,7 @@ with tab_search:
 
                     ddf = result.get("daily_df")
                     if isinstance(ddf, pd.DataFrame) and not ddf.empty:
-                        st.markdown("### 최근 일봉 차트")
-                        st.line_chart(ddf.set_index("date")[["close"]])
+                        render_ma_chart(ddf, "최근 일봉 차트 / 5·20·60일선")
 
                     col_news, col_disc = st.columns(2)
                     with col_news:
