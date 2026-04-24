@@ -786,3 +786,18 @@ with tab_watch:
         if rows:
             wdf = rows_to_df(rows)
             st.dataframe(wdf, use_container_width=True, hide_index=True)
+def safe_int(value, default=0):
+    try:
+        if value is None or value == "":
+            return default
+        return int(float(str(value).replace(",", "")))
+    except Exception:
+        return default
+
+def safe_float(value, default=0.0):
+    try:
+        if value is None or value == "":
+            return default
+        return float(str(value).replace(",", ""))
+    except Exception:
+        return default
