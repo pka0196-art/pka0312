@@ -1,0 +1,23 @@
+[
+  {
+    "name": "volume_rank",
+    "enabled": true,
+    "path": "/uapi/domestic-stock/v1/quotations/volume-rank",
+    "tr_id": "",
+    "params": {}
+  },
+  {
+    "name": "expected_updown",
+    "enabled": true,
+    "path": "/uapi/domestic-stock/v1/ranking/exp-trans-updown",
+    "tr_id": "",
+    "params": {}
+  },
+  {
+    "name": "trade_power",
+    "enabled": false,
+    "path": "",
+    "tr_id": "",
+    "params": {}
+  }
+]
