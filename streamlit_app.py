@@ -12,7 +12,46 @@ from xml.etree import ElementTree as ET
 import pandas as pd
 import requests
 import streamlit as st
+st.markdown("""
+<style>
+.block-container {
+    max-width: 1450px;
+    padding-top: 1.2rem;
+    padding-bottom: 2rem;
+}
 
+h1, h2, h3 {
+    letter-spacing: -0.3px;
+}
+
+.small-help {
+    color: #6b7280;
+    font-size: 0.92rem;
+}
+
+div[data-testid="stDataFrame"] {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+div[data-testid="stDataFrame"] table {
+    font-size: 14px;
+}
+
+div[data-testid="stDataFrame"] th {
+    background-color: #f3f4f6 !important;
+    color: #111827 !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+}
+
+div[data-testid="stDataFrame"] td {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+}
+</style>
+""", unsafe_allow_html=True)
 # -------------------------------------------------
 # 0) Streamlit secrets -> environment bridge
 # -------------------------------------------------
